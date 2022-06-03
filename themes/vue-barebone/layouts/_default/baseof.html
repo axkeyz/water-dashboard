@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    {{- partial "head.html" . -}}
+    <body>
+        <div class="grid-container">
+            <aside class="sidenav">
+                {{- partial "sidenav.html" . -}}
+            </aside>
+            <main class="main" id="app">
+                <header class="header">
+                    {{- partial "header.html" . -}}
+                </header>
+
+                <div class="content">
+                {{- block "main" . }}{{- end }}
+                </div>
+            </main>
+            <footer class="footer">
+                {{- partial "footer.html" . -}}
+            </footer>
+        </div>
+    </body>
+</html>

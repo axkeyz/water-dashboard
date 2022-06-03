@@ -1,0 +1,54 @@
+<div class="card">
+    <div class="card__inner-wrap">
+        <div class="flexed-section">
+            <h2>{{ title (replace .TableName "_" " ") }}</h2>
+            <div v-show="getArrayLength({{ .TableValues.variable }}) / 10 > 1">
+                <button aria-label="Previous Page" v-on:click="changePageCount('{{ .TableValues.variable }}_page', -1)" 
+                :disabled="{{ .TableValues.variable }}_page <= 1">&#171;</button>
+                &nbsp;&nbsp;${ {{ .TableValues.variable }}_page } of ${ Math.ceil(getArrayLength({{ .TableValues.variable }}) / 10) }&nbsp;&nbsp;
+                <button aria-label="Next Page" v-on:click="changePageCount('{{ .TableValues.variable }}_page', 1)" 
+                :disabled="{{ .TableValues.variable }}_page >= Math.ceil(getArrayLength({{ .TableValues.variable }}) / 10)">
+                &#187;</button>
+            </div>
+        </div>
+        <div class="card__small-table">
+            <table>
+            <tr>
+                {{ range $i := .TableValues.keys }}
+                    {{ range $j, $k := $i }}
+                    <th>{{ replace (title (replace $j "_" " ")) "Id" "ID" }}</th>
+                    {{ end }}
+                {{ end }}
+            </tr>
+            {{ $id := 0}}
+            <tr v-for="tablevalue in {{ .TableValues.variable }}.slice(({{ .TableValues.variable }}_page - 1) * 10, {{ .TableValues.variable }}_page * 10)">
+                {{ if .TableValues.key_renaming }}
+                    {{ range $i := .TableValues.keys }}
+                        {{ range $j, $k := $i }}
+                            {{ if in (lower $j) "id" }}{{ $id = $k }}{{ end }}
+
+                            {{ if in (lower $j) "date" }}
+                                <td v-text="shortenJSONDate(tablevalue['{{ $k }}'])"></td>
+                            {{ else if in (lower $j) "time" }}
+                                <td v-text="findJSONDateTime(tablevalue['{{ $k }}'])"></td>
+                            {{ else if eq (printf "%T" $k) "map[string]interface {}"}}
+                                {{ if isset $k "compare_array" }}
+                                    <td v-text="{{ $k.id_array }}.includes(tablevalue['{{ $id }}']) ? '{{ $k.if_true }}' : '{{ $k.if_false }}'"></td>
+                                {{ else if isset $k "mapping" }}
+                                    <td v-text="tablevalue['{{ $k.mapping }}'].toLowerCase()"></td>
+                                {{ else if isset $k "calculate" }}
+                                    <td v-text="{{ $k.calculate }}(tablevalue['{{ delimit $k.params "'], tablevalue['"}}']) +' h'"></td>
+                                {{ else }}
+                                    <td>{{ $k }}</td>
+                                {{ end }}
+                            {{ else }}
+                                <td v-text="tablevalue['{{ $k }}']"></td>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="sidenav__logo-svg"><a href="/">{{- partial "svg/logo.svg" . -}}</a></div>
+
+{{ if .Site.Menus.vb }}
+    {{ $inNav := 0 }}
+    {{ $currentPage := .RelPermalink }}
+    {{ range sort .Site.Menus.vb "Weight" "asc" }}
+        {{ if .HasChildren }}
+            <label class="sidenav__list-label hide-mobile">{{ upper .Name }}</label>
+            {{ range .Children }}
+                <a href="{{ .URL }}" aria-label="{{ .Name }}" class="sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">
+                    <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
+                    <span class="hide-mobile {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ .Name }}</span>
+                </a>
+            {{ end }}
+        {{ else }}
+            <a href="{{ .URL }}" aria-label="{{ .Name }}" class="sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">
+                <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
+                <span class="hide-mobile {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ .Name }}</span>
+            </a>
+        {{ end }}
+    {{ end }}
+    {{ if eq $inNav 0 }}
+        <a href="javascript:void(0);" class="current"><span class="hide-mobile">ARTICLE</span></a>
+    {{ end }}
+{{ else if eq .IsHome true }}
+    <a href="/" class="sidenav__list-item sidenav__list-item-current">HOME</a>
+{{ else }}
+    <a href="/" class="sidenav__list-item">
+        <span class="hide-mobile">HOME</span>
+    </a>
+    <a href="javascript:void(0);" class="sidenav__list-item sidenav__list-item-current">
+        <span class="hide-mobile">ARTICLE</span>
+    </a>
+{{ end }}

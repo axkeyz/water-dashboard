@@ -1,0 +1,50 @@
+baseURL = "http://localhost:1313/"
+languageCode = "en-nz"
+title = "Water Outages"
+theme = "vue-barebone"
+copyright = "© {year} A. Huang"
+
+[menu]
+    [[menu.vb]]
+    name = "Outages"
+    identifier = "outages"
+    weight = 1
+
+    [[menu.vb]]
+    name = "Dashboard"
+    parent = "outages"
+    url = "/"
+    weight = 1
+    pre = "svg/dashboard.svg"
+
+    [[menu.vb]]
+    name = "Analytics"
+    url = "/analytics"
+    parent = "outages"
+    weight = 2
+    pre = "svg/graph.svg"
+
+    [[menu.vb]]
+    name = "Network"
+    url = "/network"
+    weight = 3
+    pre = "svg/network.svg"
+
+    [[menu.vb]]
+    name = "Utilities"
+    identifier = "utilities"
+    weight = 4
+
+    [[menu.vb]]
+    name = "Settings"
+    parent = "utilities"
+    url = "/settings"
+    weight = 5
+    pre = "svg/settings.svg"
+
+    [[menu.vb]]
+    name = "About"
+    parent = "utilities"
+    url = "/about"
+    weight = 6
+    pre = "svg/info.svg"

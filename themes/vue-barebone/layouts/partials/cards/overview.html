@@ -1,0 +1,9 @@
+<div class="overviewcard">
+    <div class="overviewcard__icon">
+        {{ if ne .StatValues.icon "" }}
+            <div class="overviewcard__icon-svg {{ .StatValues.class }}">{{- partial .StatValues.icon }}</div>
+        {{ end }}
+            <div class="overviewcard__icon-label">{{ title (replace .StatName "_" " ") }}</div>
+    </div>
+    <div class="overviewcard__info">{{ .StatValues.variable }}</div>
+</div>

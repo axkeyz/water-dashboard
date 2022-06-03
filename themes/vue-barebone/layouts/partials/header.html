@@ -1,0 +1,7 @@
+<div class="header__avatar">
+    <h1>
+        {{ .Site.Title }}{{ if ne .Page.Title "" }} &nbsp;&#8212&nbsp; {{ title .Page.Title }} 
+        &nbsp;&#8212&nbsp; ${ today_date.toDateString() } @ ${ today_date.toLocaleTimeString('en-US') } (NZT){{ end }}
+    </h1>
+</div>
+<div class="header__search">Search...</div>
