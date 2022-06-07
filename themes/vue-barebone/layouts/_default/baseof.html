@@ -2,11 +2,11 @@
 <html>
     {{- partial "head.html" . -}}
     <body>
-        <div class="grid-container">
+        <div class="grid-container" id="app">
             <aside class="sidenav">
                 {{- partial "sidenav.html" . -}}
             </aside>
-            <main class="main" id="app">
+            <main class="main">
                 <header class="header">
                     {{- partial "header.html" . -}}
                 </header>
@@ -15,9 +15,9 @@
                 {{- block "main" . }}{{- end }}
                 </div>
             </main>
-            <footer class="footer">
-                {{- partial "footer.html" . -}}
-            </footer>
         </div>
+        <footer class="footer">
+            {{- partial "footer.html" . -}}
+        </footer>
     </body>
 </html>

@@ -9,13 +9,12 @@ var app = new Vue({
         outages_today_page: 1,
         today_date: new Date(),
         current_outage_ids: [],
+        variables: [],
     },
     created:function() {
-        this.getCurrentOutages()
         this.getTodayOutages()
 
         setInterval(() => {
-            this.getCurrentOutages()
             this.getTodayOutages()
         }, 3600000)
 
@@ -39,19 +38,15 @@ var app = new Vue({
         getTodayDate:function() {
             this.today_date = new Date()
         },
-        getCurrentOutages:function() {
-            fetch('http://localhost:1899/current')
+        getTodayOutages:function(modifier = '') {
+            fetch('http://localhost:1899/count?get=total_hours&get=id&get=street&get=suburb&get=outage_type&get=end_date&get=start_date&get=outage_id&after_end_date=' + new Date().toJSON().slice(0,10) + modifier)
             .then(res => res.json())
             .then(res => {
-                this.current_outages = res;
-                this.current_outage_ids = this.getNestedObjectValuesByKey(res, 'outageId');
-            });
-        },
-        getTodayOutages:function() {
-            fetch('http://localhost:1899?after_end_date=' + new Date().toJSON().slice(0,10))
-            .then(res => res.json())
-            .then(res => {
-                this.outages_today = res;
+                if (res == null) {
+                    this.outages_today = [];
+                } else {
+                    this.outages_today = res;
+                }
             });
         },
         changePageCount:function(variable, change) {
@@ -78,11 +73,37 @@ var app = new Vue({
             }
             return result;
         },
-        findTimeDifference:function(minDate, maxDate) {
-            console.log(minDate, maxDate)
-            date1 = new Date(minDate);
-            date2 = new Date(maxDate);
-            return Math.abs(date2 - date1) / 36e5;
+        // findTimeDifference:function(minDate, maxDate) {
+        //     console.log(minDate, maxDate)
+        //     date1 = new Date(minDate);
+        //     date2 = new Date(maxDate);
+        //     return Math.round(Math.abs(date2 - date1) / 36e5);
+        // },
+        roundHours(decimal, decimalPlaces) {
+            return decimal.toFixed(decimalPlaces) + ' h'
+        },
+        appendArray(arrayName, key, value) {
+            return this.$set(arrayName, key, value)
+        },
+        getNestedObjectValuesOfKey:function(theObject, nestedKey, value) {
+            var result = [];
+            for(var i = 0; i < theObject.length; i++) {
+                if (theObject[i][nestedKey] == value) {
+                    result.push(theObject[i]);
+                }
+            }
+            return result;
+        },
+        changeArrayVariable(arrayName, arrayValues) {
+            this[arrayName] = arrayValues;
+        },
+        toggleModal(modalID){
+            modal = this.$refs[modalID]
+            if (modal.style.display == 'none' || modal.style.display == "") {
+                modal.style.display = 'table'
+            } else {
+                modal.style.display = 'none'
+            }
         },
     },
 })

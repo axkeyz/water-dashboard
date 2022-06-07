@@ -4,6 +4,11 @@ title = "Water Outages"
 theme = "vue-barebone"
 copyright = "© {year} A. Huang"
 
+disablePathToLower = true
+
+[permalinks]
+    page = "/:filename"
+
 [menu]
     [[menu.vb]]
     name = "Outages"
@@ -25,26 +30,36 @@ copyright = "© {year} A. Huang"
     pre = "svg/graph.svg"
 
     [[menu.vb]]
-    name = "Network"
-    url = "/network"
+    name = "All Records"
+    url = "/archive"
+    parent = "outages"
     weight = 3
+    pre = "svg/table.svg"
+
+    [[menu.vb]]
+    name = "Pipe Network"
+    url = "/network"
+    weight = 4
     pre = "svg/network.svg"
 
     [[menu.vb]]
     name = "Utilities"
     identifier = "utilities"
-    weight = 4
+    weight = 5
 
     [[menu.vb]]
     name = "Settings"
     parent = "utilities"
     url = "/settings"
-    weight = 5
+    weight = 6
     pre = "svg/settings.svg"
 
     [[menu.vb]]
     name = "About"
     parent = "utilities"
-    url = "/about"
-    weight = 6
+    url = "/about-m238az"
+    weight = 7
     pre = "svg/info.svg"
+    [menu.vb.params]
+        type = "modal"
+        content = true

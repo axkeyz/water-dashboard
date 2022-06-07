@@ -7,15 +7,30 @@
         {{ if .HasChildren }}
             <label class="sidenav__list-label hide-mobile">{{ upper .Name }}</label>
             {{ range .Children }}
-                <a href="{{ .URL }}" aria-label="{{ .Name }}" class="sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">
-                    <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
-                    <span class="hide-mobile {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ .Name }}</span>
-                </a>
+                {{ if eq .Params.type "modal" }}
+                    {{ $modal_id := (delimit (shuffle (seq 1 9)) "") }}
+                    <button aria-label="{{ .Name }}" class="modal-button sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end }}"
+                    @click="toggleModal('id_'+'{{ $modal_id }}')">
+                        <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
+                        <span class="hide-mobile sidenav__list-item-label">{{ .Name }}</span>
+                    </button>
+
+                    {{ if .Params.content }}
+                        {{ with site.GetPage .URL }}
+                            {{- partial "cards/modal.html" (dict "params" . "id" $modal_id) -}}
+                        {{ end }}
+                    {{ end }}
+                {{ else }}
+                    <a href="{{ .URL }}" aria-label="{{ .Name }}" class="sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">
+                        <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
+                        <span class="hide-mobile sidenav__list-item-label {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end }}">{{ .Name }}</span>
+                    </a>
+                {{ end }}
             {{ end }}
         {{ else }}
             <a href="{{ .URL }}" aria-label="{{ .Name }}" class="sidenav__list-item {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">
                 <div class="sidenav__list-item-svg-wrapper"><div class="sidenav__list-item-svg {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ if ne .Pre "" }}{{- partial (string .Pre) . -}}{{ end }}</div></div>
-                <span class="hide-mobile {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end}}">{{ .Name }}</span>
+                <span class="hide-mobile sidenav__list-item-label {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end }}">{{ .Name }}</span>
             </a>
         {{ end }}
     {{ end }}

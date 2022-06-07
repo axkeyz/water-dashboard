@@ -1,6 +1,8 @@
-<div class="overviewcard">
+<div class="overviewcard grid-span-onethird" 
+    {{ if isset .StatValues "onclick" }}@click="{{ .StatValues.onclick.function }}({{ delimit .StatValues.onclick.params ", "}})"{{ end }}
+>
     <div class="overviewcard__icon">
-        {{ if ne .StatValues.icon "" }}
+        {{ if isset .StatValues "icon" }}
             <div class="overviewcard__icon-svg {{ .StatValues.class }}">{{- partial .StatValues.icon }}</div>
         {{ end }}
             <div class="overviewcard__icon-label">{{ title (replace .StatName "_" " ") }}</div>

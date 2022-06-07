@@ -1,21 +1,25 @@
 {{ define "main" }}
-<div>
-    
-    <div class="main-header">
-        <div class="main-header__heading">${ message }</div>
-        <div class="main-header__updates">Recent Items</div>
+<div class="main-grid">
+
+    <div class="new-grid-row">
+        <div class="grid-span-full main-header">
+            <div class="main-header__heading">${ message }</div>
+            <div class="main-header__updates">Recent Items</div>
+        </div>
     </div>
 
-    <div class="main-overview">
+    <div class="new-grid-row main-overview">
         {{ range $i, $j := .Params.Stats }}
             {{ partial "cards/overview.html" (dict "StatName" $i "StatValues" $j) }}
         {{ end }}
     </div>
 
-    <div class="main-content">
-        {{ range $i, $j := .Params.Tables }}
-            {{ partial "cards/content.html" (dict "TableName" $i "TableValues" $j) }}
-        {{ end }}
+    <div class="new-grid-row">
+        <div class="main-content grid-span-full">
+            {{ range $i, $j := .Params.Tables }}
+                {{ partial $j.template (dict "TableName" $i "TableValues" $j) }}
+            {{ end }}
+        </div>
     </div>
 </div>
 {{ end }}

@@ -1,0 +1,20 @@
+<div class="modal-mask" ref="id_{{ .id }}" >
+    <div class="modal-wrapper" @click.self="toggleModal('id_'+{{ .id }})">
+      <div class="modal-container">
+
+        <div class="modal-header">
+          <h3>{{ .params.Title }}</h3>
+        </div>
+
+        <div class="modal-body">
+          {{ .params.Content }}
+        </div>
+
+        <div class="modal-footer">
+            <button class="main-button modal-default-button" @click="toggleModal('id_'+{{ .id }})">
+              OK
+            </button>
+        </div>
+      </div>
+    </div>
+</div>
