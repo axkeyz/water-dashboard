@@ -3,6 +3,11 @@
     {{ if isset $k "cell_class"}}
         class="{{ $k.cell_class }}"
     {{ end }}
+
+    {{ if $k.trigger_modal }}
+        @click="this.console.log('clicked'),
+        toggleModal('id_'+'{{ .modal_id }}')"
+    {{ end }}
 >
     {{ if isset $k "mapping" }}
         {{ partial "tables/table_cell_div.html" (dict "k" $k) }}

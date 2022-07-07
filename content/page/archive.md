@@ -17,6 +17,7 @@ tables:
             - id:
                 mapping: outage_id
                 cell_class: desktop-only
+                trigger_modal: true
             - street:
                 mapping: street
                 cell_class: desktop-only

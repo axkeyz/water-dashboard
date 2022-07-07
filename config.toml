@@ -6,6 +6,10 @@ copyright = "© {year} A. Huang (axkeyz)"
 
 disablePathToLower = true
 
+[markup]
+  defaultMarkdownHandler = 'goldmark'
+
+
 [permalinks]
     page = "/:filename"
 

@@ -1,3 +1,4 @@
+{{ $modal_id := (delimit (shuffle (seq 1 9)) "") }}
 <div class="card">
     <div class="flexed-section">
         <h2>{{ title (replace .TableName "_" " ") }}</h2>
@@ -28,5 +29,14 @@
                 {{ end }}
             </tr>
         </table>
+        {{ if isset .TableValues "modal" }}
+            {{ with site.GetPage .TableValues.modal }}
+                {{- partial "cards/modal.html" (
+                    dict "content" .Content 
+                    "title" .Title 
+                    "id" $modal_id
+                ) -}}
+            {{ end }}
+        {{ end }}
     </div>
 </div>
