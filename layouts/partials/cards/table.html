@@ -33,67 +33,51 @@
             </div>
         {{ end }}
     </div>
-    <div class="card__small-table hide-mobile">
+    <div class="card__small-table">
         {{ if .TableValues.enable_search }}
             <input 
                 type="text" class="full-width" placeholder="{{ .TableValues.enable_search.placeholder }}"
                 v-model="variables.{{ .TableValues.variable }}.search" 
-                @input=" variables.{{ .TableValues.variable }}.page = 1,
-                    {{ if isset .TableValues.enable_search "reset_function" }} {{ .TableValues.enable_search.reset_function }}('{{ .TableValues.variable }}'),{{ end }} 
+                @input="variables.{{ .TableValues.variable }}.page = 1,
+                    resetPageAndOffsets('{{ .TableValues.variable }}'),
                     {{ .TableValues.enable_search.function }}('&search=' + variables.{{ .TableValues.variable }}.search)
                 "
             />
         {{ end }}
         <table>
             <tr>
-                {{ range $i := .TableValues.keys }}
+                {{ range $i := .TableValues.data }}
                     {{ range $j, $k := $i }}
                     <th>{{ replace (title (replace $j "_" " ")) "Id" "ID" }}</th>
                     {{ end }}
                 {{ end }}
             </tr>
-            {{ $id := 0}}
 
-            {{ if isset .TableValues "pagination"}}
             <tr v-for="tablevalue in {{ .TableValues.variable }}">
-            {{ else }}
-            <tr v-for="tablevalue in {{ .TableValues.variable }}.slice(({{ .TableValues.variable }}_page - 1) * variables.pageItemCount, 
-                {{ .TableValues.variable }}_page * variables.pageItemCount)"
-            >
-            {{ end }}
-                {{ if .TableValues.key_renaming }}
-                    {{ range $i := .TableValues.keys }}
-                        {{ range $j, $k := $i }}
-                            {{ if in (lower $j) "id" }}{{ $id = $k }}{{ end }}
-
-                            {{ if in (lower $j) "date" }}
-                                <td v-text="shortenJSONDate(tablevalue['{{ $k }}'])"></td>
-                            {{ else if in (lower $j) "time" }}
-                                <td v-text="findJSONDateTime(tablevalue['{{ $k }}'])"></td>
-                            {{ else if eq (printf "%T" $k) "map[string]interface {}"}}
-                                {{ if isset $k "compare_array" }}
-                                    <td><div v-text="tablevalue['{{ $j }}'] ? '{{ $k.if_true }}' : '{{ $k.if_false }}'"
-                                        class="table__rounded-label"
-                                        :class="{ {{ range $value, $class := $k.values }}
-                                        '{{ $class }}' : {{ $value }} == tablevalue['{{ $j }}'],
-                                        {{ end }} }"
-                                    ></div></td>
-                                {{ else if isset $k "mapping" }}
-                                    <td><div v-text="tablevalue['{{ $k.mapping }}'].toLowerCase()"
-                                    class="table__rounded-label"
-                                    :class="{ {{ range $value, $class := $k.values }}
-                                    '{{ $class }}' : '{{ $value }}' == tablevalue['{{ $k.mapping }}'].toLowerCase(),
-                                    {{ end }} }"
-                                    ></div></td>
-                                {{ else if isset $k "calculate" }}
-                                    <td v-text="{{ $k.calculate }}({{ delimit $k.params ", "}})"></td>
-                                {{ else }}
-                                    <td>{{ $k }}</td>
-                                {{ end }}
+                {{ range $i := .TableValues.data }}
+                    {{ range $j, $k := $i }}
+                        <td><div 
+                            v-text="
+                            {{ if isset $k "function" }}{{ $k.function }}({{ end }}
+                            {{ if isset $k "boolean_class" }}
+                                tablevalue.{{ $k.mapping }}.toString().toLowerCase() == '{{ $k.boolean_class.true.value }}' 
+                                ? '{{ $k.boolean_class.true.mapping }}' : '{{ $k.boolean_class.false.mapping }}'
                             {{ else }}
-                                <td v-text="tablevalue['{{ $k }}']"></td>
+                                tablevalue.{{ $k.mapping }}
                             {{ end }}
-                        {{ end }}
+                            {{ if isset $k "function" }}){{ end }}
+                            "
+                            
+                            {{ if isset $k "class"}}
+                                class="{{ $k.class }}"
+                            {{ end }}
+
+                            {{ if isset $k "boolean_class" }}
+                            :class="{ {{ range $keys := $k.boolean_class }}
+                                '{{ $keys.class }}' : tablevalue.{{ $k.mapping }}.toString().toLowerCase() == '{{ $keys.value }}',
+                            {{ end }} }"
+                            {{ end }}
+                        ></div></td>
                     {{ end }}
                 {{ end }}
             </tr>
