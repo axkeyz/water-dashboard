@@ -5,53 +5,58 @@ draft: false
 type: archive
 
 tables:
-    All outages (since November 2021):
+    All outages:
         pagination: variables.all_outages.count
         template: cards/table.html
         variable: all_outages
         variable_params: "&sort=end_date desc"
         key_renaming: true
         item_limit: 50
-        keys:
-            - id: outage_id
-            - street: street
-            - suburb: suburb
+        data:
+            - id:
+                mapping: outage_id
+            - street:
+                mapping: street
+            - suburb:
+                mapping: suburb
             - status:
-                compare_array: current_outages
-                id_array: current_outage_ids
-                if_true: active
-                if_false: inactive
-                values:
-                    true: light-orange-bg
-                    false: light-gray-bg
+                mapping: status
+                class: rounded-label
+                boolean_class:
+                    true:
+                        mapping: active
+                        value: true
+                        class: light-orange-bg
+                    false:
+                        mapping: inactive
+                        value: false
+                        class: light-gray-bg
             - type:
                 mapping: outage_type
-                values:
-                    planned: light-green-bg
-                    unplanned: light-pink-bg
-            - start_date: start_date
-            - start_time: start_date
-            - end_date: end_date
-            - end_time: end_date
-            # - estimated_work:
-            #     calculate: findTimeDifference
-            #     params:
-            #         - end_date
-            #         - start_date
-            #     max: end_date
-            #     min: start_date
-            # - estimated_work:
-            #     calculate: roundHours
-            #     params:
-            #         - tablevalue['total_hours']
-            #         - 2
-        # enable_search:
-        #     placeholder: Search by ID, street or suburb...
-        #     function: getAllOutages
-        #     modifier: 'limit='+{{ .TableValues.item_limit }}+'&sort=outage_id%20asc'
+                class: rounded-label
+                boolean_class:
+                    true:
+                        mapping: planned
+                        value: planned
+                        class: light-green-bg
+                    false:
+                        mapping: unplanned
+                        value: unplanned
+                        class: light-pink-bg
+            - start_date:
+                mapping: start_date
+                function: shortenJSONDate
+            - start_time:
+                mapping: start_date
+                function: findJSONDateTime
+            - end_date:
+                mapping: end_date
+                function: shortenJSONDate
+            - end_time:
+                mapping: end_date
+                function: findJSONDateTime
         enable_search:
             placeholder: Search by ID, street or suburb...
             function: getAllOutages
-            reset_function: resetPageAndOffsets
 
 ---

@@ -18,7 +18,7 @@ Unfortunately there is no public API for previous water outages (at least not to
 
 Total estimated hours of worked is generally assumed to be the hour difference between the start and end dated times. For long "planned outages", the hour formula used is `time difference in days * 2.85`, i.e. assuming an average of 2.85 hours are worked every day during a planned outage. This is certainly not an accurate formula, but it is hard to factor in non-working weekends/public holidays, planned outages that are only active during the morning/certain time frame and actual productivity hours.
 
-I started collecting data around November 2021 and data is automatically collected every 1 hour.
+I started collecting data around November 9, 2021 and data is automatically collected every 1 hour.
 
 But anyway, someday, I'll prove that we get too many water outages! Maybe!
 
@@ -34,7 +34,6 @@ The code is hosted at: https://github.com/axkeyz/water-dashboard
 - ApexCharts: Javascript charts @ https://apexcharts.com/
 
 ##### UI/Design
-- Overall design: Heavily inspired by https://betterprogramming.pub/build-a-responsive-modern-dashboard-layout-with-css-grid-and-flexbox-bd343776a97e
 - SVG logos: https://heroicons.com/
 - Lato as a font: https://fonts.google.com/specimen/Lato
 - Colour palette: https://coolors.co/141b41-306bac-6f9ceb-98b9f2-918ef4
