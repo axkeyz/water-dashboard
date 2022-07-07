@@ -63,3 +63,4 @@ disablePathToLower = true
     [menu.vb.params]
         type = "modal"
         content = true
+        url = "/modals/about"

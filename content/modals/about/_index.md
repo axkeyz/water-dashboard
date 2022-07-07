@@ -2,7 +2,6 @@
 title: "Details about this water outage project"
 date: 2022-06-19T22:04:38+12:00
 draft: false
-headless: true
 ---
 
 #### Disclaimer
