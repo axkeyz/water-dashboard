@@ -9,13 +9,31 @@ var app = new Vue({
         outages_today_page: 1,
         today_date: new Date(),
         current_outage_ids: [],
-        variables: [],
+        all_outages: [],
+        all_outages_page: 1,
+        all_outages_limit: 50,
+        variables: {
+            all_outages:
+                { 
+                    page: 1,
+                    total_pages: 0,
+                    limit: 50,
+                    offset: 0,
+                    search: '',
+                    count: 0,
+                    sort: 'end_date',
+                    sort_dir: 'desc',
+                }
+        },
     },
     created:function() {
         this.getTodayOutages()
+        this.getAllOutages()
+        // this.getAllOutagesCount()
 
         setInterval(() => {
             this.getTodayOutages()
+            this.getAllOutages()
         }, 3600000)
 
         setInterval(() => {
@@ -49,8 +67,37 @@ var app = new Vue({
                 }
             });
         },
+        getAllOutages:function(modifier = '') {
+            limit = '&limit='+this.variables.all_outages.limit
+            offset = '&offset='+this.variables.all_outages.offset
+            sort = '&sort='+this.variables.all_outages.sort+"%20"+this.variables.all_outages.sort_dir
+            fetch('http://localhost:1899/?' + limit + offset + sort + modifier )
+            .then(res => res.json())
+            .then(res => {
+                if (res == null) {
+                    this.all_outages = [];
+                } else {
+                    this.all_outages = res;
+                    this.getAllOutagesCount(modifier)
+                }
+            });
+        },
+        resetPageAndOffsets:function(variable) {
+            this['variables'][variable]["page"] = 1;
+            this['variables'][variable]["offset"] = 0;
+        },
+        getAllOutagesCount:function(modifier = '') {
+            fetch('http://localhost:1899/count?' + modifier )
+            .then(res => res.json())
+            .then(res => {
+                this.variables.all_outages.count = res[0].total_outages
+            });
+        },
+        // changePageCount:function(variable, change) {
+        //     this[variable] += change;
+        // },
         changePageCount:function(variable, change) {
-            this[variable] += change;
+            this.variables[variable]['page'] += change;
         },
         shortenJSONDate:function(date) {
             var date_form = new Date(date);
@@ -105,5 +152,8 @@ var app = new Vue({
                 modal.style.display = 'none'
             }
         },
+        updateCurrentOutages(modifier = '') {
+            this.getAllOutages(modifier)
+        }
     },
 })

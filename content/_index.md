@@ -31,6 +31,7 @@ tables:
     Outages in the past day:
         template: cards/current_table.html
         variable: outages_today
+        item_limit: 5
         key_renaming: true
         keys:
             - id: outage_id
@@ -67,6 +68,7 @@ tables:
                     - 2
         enable_search:
             placeholder: Search by ID, street or suburb...
+            function: getTodayOutages
 
 ---
 Hello world
