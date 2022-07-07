@@ -6,6 +6,7 @@ type: archive
 
 tables:
     All outages:
+        modal: /modals/outage
         pagination: variables.all_outages.count
         template: tables/table.html
         variable: all_outages

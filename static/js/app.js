@@ -23,7 +23,12 @@ var app = new Vue({
                     count: 0,
                     sort: 'end_date',
                     sort_dir: 'desc',
-                }
+                },
+            modal_outage:
+                {
+                    outage_type: '',
+                    status: false,
+                },
         },
     },
     created:function() {
