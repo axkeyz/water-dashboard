@@ -2,7 +2,7 @@
 
 {{ if .Site.Menus.vb }}
     {{ $inNav := 0 }}
-    {{ $currentPage := .RelPermalink }}
+    {{ $currentPage := .Site.BaseURL }}
     {{ range sort .Site.Menus.vb "Weight" "asc" }}
         {{ if .HasChildren }}
             <label class="sidenav__list-label hide-mobile">{{ upper .Name }}</label>
@@ -33,9 +33,6 @@
                 <span class="hide-mobile sidenav__list-item-label {{ if eq $currentPage .URL }} {{ $inNav = 1 }}sidenav__list-item-current{{ end }}">{{ .Name }}</span>
             </a>
         {{ end }}
-    {{ end }}
-    {{ if eq $inNav 0 }}
-        <a href="javascript:void(0);" class="current"><span class="hide-mobile">ARTICLE</span></a>
     {{ end }}
 {{ else if eq .IsHome true }}
     <a href="/" class="sidenav__list-item sidenav__list-item-current">HOME</a>

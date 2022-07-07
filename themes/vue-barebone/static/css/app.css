@@ -230,6 +230,7 @@ table {
     text-align: left;
     border-collapse: separate;
     border-spacing: 15px 0;
+    table-layout:fixed;
 }
 
 th {
@@ -304,6 +305,11 @@ button:disabled {
   
 /* SVG LOGO */
 .cls-1,.cls-2{fill-opacity:0;stroke-miterlimit:10;}.cls-1{stroke:#a3a1e1;stroke-width:50px;}.cls-2{stroke:#6F9CEB;stroke-width:30px;}
+
+.grid-auto {
+    display: grid;
+    grid-auto-columns: auto;
+}
 
 @media (min-width: 640px) { 
     .grid-container {

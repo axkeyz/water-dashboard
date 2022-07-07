@@ -2,21 +2,21 @@
     <div class="flexed-section">
         <h2>{{ title (replace .TableName "_" " ") }}</h2>
         {{ if isset .TableValues "pagination"}}
-            <div v-show="variables.all_outages.limit = {{ .TableValues.item_limit }},
-                variables.all_outages.total_pages = Math.ceil({{ .TableValues.pagination }} / variables.all_outages.limit),
-                variables.all_outages.total_pages > 1,
-                variables.all_outages.offset={{ .TableValues.item_limit }}*variables.all_outages.page"
+            <div v-show="variables.{{ .TableValues.variable }}.limit = {{ .TableValues.item_limit }},
+                variables.{{ .TableValues.variable }}.total_pages = Math.ceil({{ .TableValues.pagination }} / variables.{{ .TableValues.variable }}.limit),
+                variables.{{ .TableValues.variable }}.total_pages > 1,
+                variables.{{ .TableValues.variable }}.offset={{ .TableValues.item_limit }}*variables.{{ .TableValues.variable }}.page"
             >
             <button 
-                aria-label="Previous Page" v-on:click="changePageCount('all_outages', -1),
-                getAllOutages()" 
-                :disabled="variables.all_outages.page <= 1" class="main-button"
+                aria-label="Previous Page" v-on:click="changePageCount('{{ .TableValues.variable }}', -1),
+                getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search)" 
+                :disabled="variables.{{ .TableValues.variable }}.page <= 1" class="main-button"
             >&#171;</button>
-            &nbsp;&nbsp;${ variables.all_outages.page } of ${ variables.all_outages.total_pages }&nbsp;&nbsp;
+            &nbsp;&nbsp;${ variables.{{ .TableValues.variable }}.page } of ${ variables.{{ .TableValues.variable }}.total_pages }&nbsp;&nbsp;
             <button aria-label="Next Page" 
-                v-on:click="getAllOutages(),
-                changePageCount('all_outages', 1)" 
-                :disabled="variables.all_outages.page >= variables.all_outages.total_pages" class="main-button"
+                v-on:click="getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search),
+                changePageCount('{{ .TableValues.variable }}', 1)" 
+                :disabled="variables.{{ .TableValues.variable }}.page >= variables.{{ .TableValues.variable }}.total_pages" class="main-button"
             >&#187;</button>
             </div>
         {{ else }}
@@ -35,8 +35,14 @@
     </div>
     <div class="card__small-table hide-mobile">
         {{ if .TableValues.enable_search }}
-            <input type="text" class="full-width" placeholder="{{ .TableValues.enable_search.placeholder }}"
-            v-model="variables.search_string" @input="{{ .TableValues.enable_search.function }}('&search=' + variables.search_string), this.getAllOutagesCount('&search=' + variables.search_string)"/>
+            <input 
+                type="text" class="full-width" placeholder="{{ .TableValues.enable_search.placeholder }}"
+                v-model="variables.{{ .TableValues.variable }}.search" 
+                @input=" variables.{{ .TableValues.variable }}.page = 1,
+                    {{ if isset .TableValues.enable_search "reset_function" }} {{ .TableValues.enable_search.reset_function }}('{{ .TableValues.variable }}'),{{ end }} 
+                    {{ .TableValues.enable_search.function }}('&search=' + variables.{{ .TableValues.variable }}.search)
+                "
+            />
         {{ end }}
         <table>
             <tr>
@@ -47,9 +53,14 @@
                 {{ end }}
             </tr>
             {{ $id := 0}}
+
+            {{ if isset .TableValues "pagination"}}
+            <tr v-for="tablevalue in {{ .TableValues.variable }}">
+            {{ else }}
             <tr v-for="tablevalue in {{ .TableValues.variable }}.slice(({{ .TableValues.variable }}_page - 1) * variables.pageItemCount, 
                 {{ .TableValues.variable }}_page * variables.pageItemCount)"
             >
+            {{ end }}
                 {{ if .TableValues.key_renaming }}
                     {{ range $i := .TableValues.keys }}
                         {{ range $j, $k := $i }}
