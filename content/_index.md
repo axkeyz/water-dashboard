@@ -29,7 +29,7 @@ stats:
 
 tables:
     Outages in the past day:
-        template: cards/current_table.html
+        template: tables/current_table.html
         variable: outages_today
         item_limit: 5
         key_renaming: true

@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="flexed-section">
+        <h2>{{ title (replace .TableName "_" " ") }}</h2>
+        {{ partial "tables/pagination" (dict "TableValues" .TableValues) }}
+    </div>
+    <div class="card__small-table">
+        {{ partial "tables/search.html" (dict "TableValues" .TableValues) }}
+        <table>
+            <tr>
+                {{ range $i := .TableValues.data }}
+                    {{ range $j, $k := $i }}
+                    <th
+                    {{ if isset $k "cell_class"}}
+                        class="{{ $k.cell_class }}"
+                    {{ end }}>
+                        {{ replace (title (replace $j "_" " ")) "Id" "ID" }}
+                    </th>
+                    {{ end }}
+                {{ end }}
+            </tr>
+
+            {{/* Create one row for each outage */}}
+            <tr v-for="tablevalue in {{ .TableValues.variable }}">
+                {{ range $i := .TableValues.data }}
+                    {{ range $k := $i }}
+                        {{ partial "tables/table_cell.html" (dict "k" $k) }}
+                    {{ end }}
+                {{ end }}
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+<div class="card">
+    <div class="flexed-section">
+        <h2>{{ title (replace .TableName "_" " ") }}</h2>
+        {{ if isset .TableValues "pagination"}}
+            <div v-show="variables.all_outages.limit = {{ .TableValues.item_limit }},
+                variables.all_outages.total_pages = Math.ceil({{ .TableValues.pagination }} / variables.all_outages.limit),
+                variables.all_outages.total_pages > 1,
+                variables.all_outages.offset={{ .TableValues.item_limit }}*variables.all_outages.page"
+            >
+            <button 
+                aria-label="Previous Page" v-on:click="changePageCount('all_outages', -1),
+                getAllOutages()" 
+                :disabled="variables.all_outages.page <= 1" class="main-button"
+            >&#171;</button>
+            &nbsp;&nbsp;${ variables.all_outages.page } of ${ variables.all_outages.total_pages }&nbsp;&nbsp;
+            <button aria-label="Next Page" 
+                v-on:click="getAllOutages(),
+                changePageCount('all_outages', 1)" 
+                :disabled="variables.all_outages.page >= variables.all_outages.total_pages" class="main-button"
+            >&#187;</button>
+            </div>
+        {{ else }}
+            <div v-show="variables.pageItemCount = {{ .TableValues.item_limit }},
+                variables.pageNum = getArrayLength({{ .TableValues.variable }}) / variables.pageItemCount, 
+                variables.pageNum > 1"
+            >
+                <button aria-label="Previous Page" v-on:click="changePageCount('{{ .TableValues.variable }}_page', -1)" 
+                :disabled="{{ .TableValues.variable }}_page <= 1" class="main-button">&#171;</button>
+                &nbsp;&nbsp;${ {{ .TableValues.variable }}_page } of ${ Math.ceil(variables.pageNum) }&nbsp;&nbsp;
+                <button aria-label="Next Page" v-on:click="changePageCount('{{ .TableValues.variable }}_page', 1)" 
+                :disabled="{{ .TableValues.variable }}_page >= Math.ceil(variables.pageNum)" class="main-button">
+                &#187;</button>
+            </div>
+        {{ end }}
+    </div>
+    <div class="card__small-table hide-mobile">
+        {{ if .TableValues.enable_search }}
+            <input type="text" class="full-width" placeholder="{{ .TableValues.enable_search.placeholder }}"
+            v-model="variables.search_string" @input="{{ .TableValues.enable_search.function }}('&search=' + variables.search_string), this.getAllOutagesCount('&search=' + variables.search_string)"/>
+        {{ end }}
+        <table>
+            <tr>
+                {{ range $i := .TableValues.keys }}
+                    {{ range $j, $k := $i }}
+                    <th>{{ replace (title (replace $j "_" " ")) "Id" "ID" }}</th>
+                    {{ end }}
+                {{ end }}
+            </tr>
+            {{ $id := 0}}
+            <tr v-for="tablevalue in {{ .TableValues.variable }}.slice(({{ .TableValues.variable }}_page - 1) * variables.pageItemCount, 
+                {{ .TableValues.variable }}_page * variables.pageItemCount)"
+            >
+                {{ if .TableValues.key_renaming }}
+                    {{ range $i := .TableValues.keys }}
+                        {{ range $j, $k := $i }}
+                            {{ if in (lower $j) "id" }}{{ $id = $k }}{{ end }}
+
+                            {{ if in (lower $j) "date" }}
+                                <td v-text="shortenJSONDate(tablevalue['{{ $k }}'])"></td>
+                            {{ else if in (lower $j) "time" }}
+                                <td v-text="findJSONDateTime(tablevalue['{{ $k }}'])"></td>
+                            {{ else if eq (printf "%T" $k) "map[string]interface {}"}}
+                                {{ if isset $k "compare_array" }}
+                                    <td><div v-text="tablevalue['{{ $j }}'] ? '{{ $k.if_true }}' : '{{ $k.if_false }}'"
+                                        class="table__rounded-label"
+                                        :class="{ {{ range $value, $class := $k.values }}
+                                        '{{ $class }}' : {{ $value }} == tablevalue['{{ $j }}'],
+                                        {{ end }} }"
+                                    ></div></td>
+                                {{ else if isset $k "mapping" }}
+                                    <td><div v-text="tablevalue['{{ $k.mapping }}'].toLowerCase()"
+                                    class="table__rounded-label"
+                                    :class="{ {{ range $value, $class := $k.values }}
+                                    '{{ $class }}' : '{{ $value }}' == tablevalue['{{ $k.mapping }}'].toLowerCase(),
+                                    {{ end }} }"
+                                    ></div></td>
+                                {{ else if isset $k "calculate" }}
+                                    <td v-text="{{ $k.calculate }}({{ delimit $k.params ", "}})"></td>
+                                {{ else }}
+                                    <td>{{ $k }}</td>
+                                {{ end }}
+                            {{ else }}
+                                <td v-text="tablevalue['{{ $k }}']"></td>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            </tr>
+        </table>
+    </div>
+</div>

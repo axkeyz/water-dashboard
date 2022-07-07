@@ -1,0 +1,28 @@
+{{ $k := .k }}
+
+<div 
+    v-text="{{ if isset $k "pre_text" }}'{{ $k.pre_text }}' + {{ end }}
+    {{ if isset $k "function" }}{{ $k.function }}({{ end }}
+    {{ if isset $k "boolean_class" }}
+        tablevalue.{{ $k.mapping }}.toString().toLowerCase() == '{{ $k.boolean_class.true.value }}' 
+        ? '{{ $k.boolean_class.true.mapping }}' : '{{ $k.boolean_class.false.mapping }}'
+    {{ else }}
+        tablevalue.{{ $k.mapping }}
+    {{ end }}
+    {{ if isset $k "function" }}){{ end }}
+    {{ if isset $k "post_text" }}+ '{{ $k.post_text }}'{{ end }}
+    "
+    
+    {{/* Set default classes */}}
+    {{ if isset $k "class"}}
+        class="{{ $k.class }}"
+    {{ end }}
+
+    {{/* Set vue optional classes, :class depending on values */}}
+    {{ if isset $k "boolean_class" }}
+    :class="{ {{ range $keys := $k.boolean_class }}
+        '{{ $keys.class }}' : tablevalue.{{ $k.mapping }}.toString().toLowerCase() == '{{ $keys.value }}',
+    {{ end }} }"
+    {{ end }}
+></div>
+{{ if $k.force_line_break }}<br />{{ end }}

@@ -1,0 +1,16 @@
+{{ $k := .k }}
+<td
+    {{ if isset $k "cell_class"}}
+        class="{{ $k.cell_class }}"
+    {{ end }}
+>
+    {{ if isset $k "mapping" }}
+        {{ partial "tables/table_cell_div.html" (dict "k" $k) }}
+    {{ else if isset $k "html" }}
+        {{ range $u := $k.html }}
+            {{ range $v := $u }}
+                {{ partial "tables/table_cell_div.html" (dict "k" $v) }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+</td>

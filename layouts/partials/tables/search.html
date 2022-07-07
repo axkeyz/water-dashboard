@@ -1,0 +1,10 @@
+{{ if .TableValues.enable_search }}
+<input 
+    type="text" class="full-width" placeholder="{{ .TableValues.enable_search.placeholder }}"
+    v-model="variables.{{ .TableValues.variable }}.search" 
+    @input="variables.{{ .TableValues.variable }}.page = 1,
+        resetPageAndOffsets('{{ .TableValues.variable }}'),
+        {{ .TableValues.enable_search.function }}('&search=' + variables.{{ .TableValues.variable }}.search)
+    "
+/>
+{{ end }}
