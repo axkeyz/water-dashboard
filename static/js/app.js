@@ -98,6 +98,7 @@ var app = new Vue({
         // },
         changePageCount:function(variable, change) {
             this.variables[variable]['page'] += change;
+            this.variables[variable]['offset'] += 2 * change * this.variables[variable]['limit'];
         },
         shortenJSONDate:function(date) {
             var date_form = new Date(date);
