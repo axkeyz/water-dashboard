@@ -5,7 +5,7 @@
     {{ end }}
 
     {{ if $k.trigger_modal }}
-        @click="this.console.log('clicked'),
+        @click="variables.modal_outage = tablevalue,
         toggleModal('id_'+'{{ .modal_id }}')"
     {{ end }}
 >

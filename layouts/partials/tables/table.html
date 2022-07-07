@@ -24,7 +24,7 @@
             <tr v-for="tablevalue in {{ .TableValues.variable }}">
                 {{ range $i := .TableValues.data }}
                     {{ range $k := $i }}
-                        {{ partial "tables/table_cell.html" (dict "k" $k) }}
+                        {{ partial "tables/table_cell.html" (dict "k" $k "modal_id" $modal_id) }}
                     {{ end }}
                 {{ end }}
             </tr>

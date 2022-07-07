@@ -8,7 +8,9 @@ disablePathToLower = true
 
 [markup]
   defaultMarkdownHandler = 'goldmark'
-
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+        typographer = false
 
 [permalinks]
     page = "/:filename"
