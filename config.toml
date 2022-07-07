@@ -57,7 +57,7 @@ disablePathToLower = true
     [[menu.vb]]
     name = "About"
     parent = "utilities"
-    url = "/about-m238az"
+    url = "/modals/about"
     weight = 7
     pre = "svg/info.svg"
     [menu.vb.params]
