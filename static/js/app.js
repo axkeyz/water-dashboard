@@ -2,6 +2,7 @@ var app = new Vue({
     delimiters: ['${', '}'],
     el: '#app',
     data: {
+        map: null,
         current_outages: [],
         current_outages_page: 1,
         message: 'Planned map section',
@@ -34,7 +35,7 @@ var app = new Vue({
     created:function() {
         this.getTodayOutages()
         this.getAllOutages()
-        // this.getAllOutagesCount()
+        this.initMap()
 
         setInterval(() => {
             this.getTodayOutages()
@@ -46,6 +47,12 @@ var app = new Vue({
         }, 1000)
     },
     methods:{
+        initMap:function() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8,
+            });            
+        },
         getArrayLength:function(data) {
             return data.length;
         },
@@ -116,6 +123,14 @@ var app = new Vue({
             hours = hours % 12;
             hours = hours ? hours : 12;
             return String(hours).padStart(2, '0') + ":" + String(date_form.getMinutes()).padStart(2, '0') + ' ' + ampm;
+        },
+        createLongJSONDate:function(date) {
+            var date_form = new Date(date);
+            return date_form.toLocaleDateString("en-US", { 
+                weekday: 'long', year: 'numeric', month: 'long', 
+                day: 'numeric', hour: 'numeric', 
+                minute: 'numeric', second: 'numeric' 
+            })
         },
         getNestedObjectValuesByKey:function(theObject, nestedKey) {
             var result = [];

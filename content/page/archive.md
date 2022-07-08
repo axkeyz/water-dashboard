@@ -68,6 +68,7 @@ tables:
                 cell_class: larger-desktop-only
             - outage:
                 cell_class: mobile-only
+                trigger_modal: true
                 html:
                     - id:
                         mapping: outage_id
@@ -98,7 +99,7 @@ tables:
                         mapping: end_date
                         function: findJSONDateTime
                         class: inline-outage-label
-                        post_text: " — "
+                        force_line_break: true
                     - status:
                         mapping: status
                         class: rounded-label inline-outage-label
