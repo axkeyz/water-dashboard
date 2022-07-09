@@ -277,9 +277,18 @@ button:disabled {
     max-height: 90vh;
 }
   
-.modal-header h3 {
+.modal-container h1 {
     margin-top: 0;
     color: #306BAC;
+    font-size: 1.25rem;
+}
+
+.modal-container h2 {
+    font-size: 1.1rem;
+}
+
+.modal-container h3 {
+    font-size: 1rem;
 }
   
 .modal-body {
@@ -338,3 +347,12 @@ th.mobile-only, td.mobile-only {
 /* td {
     border-bottom: 1px solid #a3a1e1;
 } */
+
+.map-wrapper {
+    height: 200px;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+}
