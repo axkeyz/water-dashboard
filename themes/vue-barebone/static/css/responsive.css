@@ -88,4 +88,8 @@
     td.larger-desktop-only, th.larger-desktop-only {
         display: table-cell;
     }
+
+    .modal-container {
+        max-width: 64rem;
+    }
 }

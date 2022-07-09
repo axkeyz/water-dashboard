@@ -268,7 +268,7 @@ button:disabled {
 }
   
 .modal-container {
-    width: 80%;
+    max-width: 80%;
     margin: 0px auto;
     padding: 30px;
     background-color: #fff;
@@ -289,6 +289,10 @@ button:disabled {
 
 .modal-container h3 {
     font-size: 1rem;
+}
+
+.modal-container table {
+    max-width: 24rem;
 }
   
 .modal-body {
@@ -316,7 +320,6 @@ table {
 
 th {
     padding: 10px 0;
-    background-color: #f5f6fc;
 }
 
 td {

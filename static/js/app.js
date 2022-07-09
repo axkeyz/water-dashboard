@@ -135,9 +135,20 @@ var app = new Vue({
                 }
             });
         },
+        getTotalHours(outage_data) {
+            end_date = new Date(outage_data.end_date);
+            start_date = new Date(outage_data.start_date);
+            total_hours = (end_date - start_date) / 36e5;
+            if (outage_data.outage_type == 'Planned' && total_hours >= 24) {
+                return Math.round((end_date.getDate() - start_date.getDate()) * 2.85 * 100) / 100
+
+            } else {
+                return Math.round(total_hours * 100) / 100;
+            }
+        },
         resetPageAndOffsets:function(variable) {
-            this['variables'][variable]["page"] = 1;
-            this['variables'][variable]["offset"] = 0;
+            this['variables'][variable]['page'] = 1;
+            this['variables'][variable]['offset'] = 0;
         },
         getAllOutagesCount:function(modifier = '') {
             fetch('http://localhost:1899/count?' + modifier )
