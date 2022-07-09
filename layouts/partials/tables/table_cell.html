@@ -4,8 +4,9 @@
         class="{{ $k.cell_class }}"
     {{ end }}
 
-    {{ if $k.trigger_modal }}
-        @click="variables.modal_outage = tablevalue,
+    {{ if isset $k "trigger_modal" }}
+        @click="variables.{{ $k.trigger_modal.variable }} = tablevalue,
+        {{ if isset $k.trigger_modal "click_function" }}{{ $k.trigger_modal.click_function }},{{ end }}
         toggleModal('id_'+'{{ .modal_id }}')"
     {{ end }}
 >

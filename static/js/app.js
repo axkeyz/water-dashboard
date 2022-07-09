@@ -2,7 +2,6 @@ var app = new Vue({
     delimiters: ['${', '}'],
     el: '#app',
     data: {
-        map: null,
         current_outages: [],
         current_outages_page: 1,
         message: 'Planned map section',
@@ -29,13 +28,13 @@ var app = new Vue({
                 {
                     outage_type: '',
                     status: false,
+                    map: [-36.848461, 174.763336],
                 },
         },
     },
     created:function() {
         this.getTodayOutages()
         this.getAllOutages()
-        this.initMap()
 
         setInterval(() => {
             this.getTodayOutages()
@@ -46,12 +45,54 @@ var app = new Vue({
             this.getTodayDate();
         }, 1000)
     },
+    mounted:function() {
+        window.gmapsCallback = () => this.initMap() // NEW!
+        this.gmapsInit() // NEW!
+    },
     methods:{
-        initMap:function() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 8,
-            });            
+        gmapsInit: function() {
+            const apiKey = 'AIzaSyCqjALg8mpGMP5J7KCB_aPQoAVIciqjGok';
+            const callbackName = 'gmapsCallback';
+      
+            const script = document.createElement('script');
+            script.async = true;
+            script.defer = true;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=${callbackName}`;
+            document.querySelector('head').appendChild(script);
+        },
+        // initMap sets a Google Map in the #map div and places a marker at the given latitude
+        // and longtitude
+        initMap:function(
+            latitude = this.variables.modal_outage.map[0], 
+            longitude = this.variables.modal_outage.map[1], 
+            elementID = "map"
+        ) {
+            // Set array of 
+            var myLatlng = new google.maps.LatLng(latitude,longitude);
+            var mapOptions = {
+                zoom: 14,
+                center: myLatlng
+            }
+            map = new google.maps.Map(document.getElementById(elementID), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+            });
+
+            // To add the marker to the map, call setMap();
+            marker.setMap(map);
+        },
+        ReinitaliseMapFromLocationString:function(locationString = "") {
+            if (locationString != "") {
+                // Split point location string
+                var location = locationString.substring(6, locationString.length - 1).split(" ");
+
+                // Save in the order latitude, longitude
+                this.variables.modal_outage.map = [location[1], location[0]]
+
+                // Reinitialise map
+                this.initMap()
+            }
         },
         getArrayLength:function(data) {
             return data.length;
