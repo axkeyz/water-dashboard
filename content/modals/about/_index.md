@@ -24,7 +24,7 @@ But anyway, someday, I'll prove that we get too many water outages! Maybe!
 
 ## Build notes & credits
 
-I always like to make a note of all the frameworks and references I use to build my websites.
+I always like to make a note of all the frameworks and references I use to build my websites. Tbh, I probably should've just built this with NPM and stuff, but CDN is still easiest with non-Gatsby and non-Gridsome static site builders. Besides, I didn't really need much Javascript overall in this project.
 
 The code is hosted at: https://github.com/axkeyz/water-dashboard
 
