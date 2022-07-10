@@ -1,0 +1,7 @@
+<div class="new-grid-row">
+    <div class="main-content grid-span-full">
+        {{ range $i, $j := .Params }}
+            {{ partial $j.template (dict "TableName" $i "TableValues" $j) }}
+        {{ end }}
+    </div>
+</div>
