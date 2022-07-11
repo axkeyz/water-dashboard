@@ -31,7 +31,7 @@
         </table>
         {{ if isset .TableValues "modal" }}
             {{ with site.GetPage .TableValues.modal }}
-                {{- partial "cards/modal.html" (
+                {{- partial "modals/main.html" (
                     dict "content" .Content 
                     "title" .Title 
                     "id" $modal_id

@@ -17,7 +17,7 @@
 
                     {{ if .Params.content }}
                         {{ with site.GetPage .URL }}
-                            {{- partial "cards/modal.html" (dict "content" .Content "title" .Title "id" $modal_id) -}}
+                            {{- partial "modals/main.html" (dict "content" .Content "title" .Title "id" $modal_id) -}}
                         {{ end }}
                     {{ end }}
                 {{ else }}
