@@ -29,6 +29,7 @@ var app = new Vue({
                 map: [-36.848461, 174.763336],
             },
         },
+        settings: {},
     },
     created:function() {
         this.getTodayOutages()

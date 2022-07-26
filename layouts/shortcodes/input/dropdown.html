@@ -4,13 +4,16 @@
 {{ end }}
 
 <div class="{{ .Get "class" }}" id="{{ .Get "id" }}">
-    <button class="{{ .Get "class" }}-button">Dropdown</button>
-    <div class="{{ .Get "class" }}-content">
+    <input 
+        type="button" class="{{ .Get "class" }}-button" 
+        :value="variables.{{ .Get "button" }}.limit"
+    />
+    <div>
         {{ $item := split (.Get "items") ", " }}
         {{ range $i := $item }}
             <div
             v-on:click="{{ replace $functions "XITEM" $i }}"
-            >{{ $i }} {{ replace $functions "XITEM" $i }}</div>
+            >{{ $i }}</div>
         {{ end }}
     </div>
 </div>
