@@ -56,9 +56,13 @@ disablePathToLower = true
     [[menu.vb]]
     name = "Settings"
     parent = "utilities"
-    url = "/settings"
+    url = "/modals/settings"
     weight = 6
     pre = "svg/settings.svg"
+    [menu.vb.params]
+        type = "modal"
+        content = true
+        url = "/modals/settings"
 
     [[menu.vb]]
     name = "About"
