@@ -1,8 +1,7 @@
 {{ if isset .TableValues "pagination"}}
-    <div v-show="variables.{{ .TableValues.variable }}.limit = {{ .TableValues.item_limit }},
+    <div v-show="
         variables.{{ .TableValues.variable }}.total_pages = Math.ceil({{ .TableValues.pagination }} / variables.{{ .TableValues.variable }}.limit),
-        variables.{{ .TableValues.variable }}.total_pages > 1,
-        variables.{{ .TableValues.variable }}.offset={{ .TableValues.item_limit }}*variables.{{ .TableValues.variable }}.page"
+        variables.{{ .TableValues.variable }}.total_pages > 1" :key="variables.{{ .TableValues.variable }}.offset"
     >
     <button 
         aria-label="Previous Page" v-on:click="changePageCount('{{ .TableValues.variable }}', -1),
@@ -11,8 +10,8 @@
     >&#171;</button>
     &nbsp;&nbsp;${ variables.{{ .TableValues.variable }}.page } of ${ variables.{{ .TableValues.variable }}.total_pages }&nbsp;&nbsp;
     <button aria-label="Next Page" 
-        v-on:click="getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search),
-        changePageCount('{{ .TableValues.variable }}', 1)" 
+        v-on:click="changePageCount('{{ .TableValues.variable }}', 1),
+        getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search)" 
         :disabled="variables.{{ .TableValues.variable }}.page >= variables.{{ .TableValues.variable }}.total_pages" class="main-button"
     >&#187;</button>
     </div>

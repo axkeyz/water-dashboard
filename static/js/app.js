@@ -174,12 +174,15 @@ var app = new Vue({
                 this.variables.all_outages.count = res[0].total_outages
             });
         },
+        UpdateVariableNumber:function(variable, name, number) {
+            this.variables[variable][name] = number;
+        },
         // changePageCount:function(variable, change) {
         //     this[variable] += change;
         // },
         changePageCount:function(variable, change) {
             this.variables[variable]['page'] += change;
-            this.variables[variable]['offset'] += 2 * change * this.variables[variable]['limit'];
+            this.variables[variable]['offset'] += change * this.variables[variable]['limit'];
         },
         shortenJSONDate:function(date) {
             var date_form = new Date(date);
