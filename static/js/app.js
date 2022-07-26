@@ -13,23 +13,21 @@ var app = new Vue({
         all_outages_page: 1,
         all_outages_limit: 50,
         variables: {
-            all_outages:
-                { 
-                    page: 1,
-                    total_pages: 0,
-                    limit: 50,
-                    offset: 0,
-                    search: '',
-                    count: 0,
-                    sort: 'end_date',
-                    sort_dir: 'desc',
-                },
-            modal_outage:
-                {
-                    outage_type: '',
-                    status: false,
-                    map: [-36.848461, 174.763336],
-                },
+            all_outages: { 
+                page: 1,
+                total_pages: 0,
+                limit: 50,
+                offset: 0,
+                search: '',
+                count: 0,
+                sort: 'end_date',
+                sort_dir: 'desc',
+            },
+            modal_outage: {
+                outage_type: '',
+                status: false,
+                map: [-36.848461, 174.763336],
+            },
         },
     },
     created:function() {
@@ -51,7 +49,7 @@ var app = new Vue({
     },
     methods:{
         gmapsInit: function() {
-            const apiKey = 'AIzaSyCqjALg8mpGMP5J7KCB_aPQoAVIciqjGok';
+            const apiKey = this.unEncryptKey();
             const callbackName = 'gmapsCallback';
       
             const script = document.createElement('script');
@@ -59,6 +57,19 @@ var app = new Vue({
             script.defer = true;
             script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=${callbackName}`;
             document.querySelector('head').appendChild(script);
+        },
+        unEncryptKey:function() {
+            k = 'hTVIfMVSMY-8Bp-'+this.p3();
+            a = k.split('-');
+            t = a[0];
+            a[0] = a[2];
+            a[2] = t; 
+
+            return a.join('-');
+        },
+        p3:function() {
+            k = 'R7kl0x7ZYPK7pGXHKCySazIA'.split('').reverse().join('');
+            return k;
         },
         // initMap sets a Google Map in the #map div and places a marker at the given latitude
         // and longtitude
@@ -82,7 +93,7 @@ var app = new Vue({
             // To add the marker to the map, call setMap();
             marker.setMap(map);
         },
-        ReinitaliseMapFromLocationString:function(locationString = "") {
+        reinitMap:function(locationString = "") {
             if (locationString != "") {
                 // Split point location string
                 var location = locationString.substring(6, locationString.length - 1).split(" ");
@@ -110,8 +121,10 @@ var app = new Vue({
             this.today_date = new Date()
         },
         getTodayOutages:function(modifier = '') {
-            fetch('http://localhost:1899/count?get=total_hours&get=id&get=street&get=suburb&get=outage_type&get=end_date&get=start_date&get=outage_id&after_end_date=' + new Date().toJSON().slice(0,10) + modifier)
-            .then(res => res.json())
+            fetch('http://localhost:1899/count?get=total_hours&get=id&get=street&get=suburb' +
+            '&get=outage_type&get=end_date&get=start_date&get=outage_id&after_end_date=' +
+             new Date().toJSON().slice(0,10) + modifier
+            ).then(res => res.json())
             .then(res => {
                 if (res == null) {
                     this.outages_today = [];
@@ -181,7 +194,7 @@ var app = new Vue({
             return date_form.toLocaleDateString("en-US", { 
                 weekday: 'long', year: 'numeric', month: 'long', 
                 day: 'numeric', hour: 'numeric', 
-                minute: 'numeric', second: 'numeric' 
+                minute: 'numeric'
             })
         },
         getNestedObjectValuesByKey:function(theObject, nestedKey) {
