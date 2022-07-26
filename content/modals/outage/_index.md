@@ -15,10 +15,12 @@ Outage #${ variables.modal_outage.outage_id } is a ${ variables.modal_outage.out
 | Key | Description |
 | ----------- | ----------- |
 | Outage ID | ${ variables.modal_outage.outage_id } |
-| Street | ${ variables.modal_outage.street } |
-| Suburb | ${ variables.modal_outage.suburb } |
 | Status | ${ variables.modal_outage.status ? 'Active' : 'Inactive' } |
 | Type | ${ variables.modal_outage.outage_type } |
+| Street | ${ variables.modal_outage.street } |
+| Suburb | ${ variables.modal_outage.suburb } |
+| Longitude | ${ variables.modal_outage.map[1] } |
+| Latitude | ${ variables.modal_outage.map[0] } |
 | Start Date | ${ shortenJSONDate(variables.modal_outage.start_date) } |
 | Start Time | ${ findJSONDateTime(variables.modal_outage.start_date) } |
 | End Date | ${ shortenJSONDate(variables.modal_outage.end_date) } |

@@ -19,7 +19,7 @@ tables:
                 cell_class: desktop-only
                 trigger_modal:
                     variable: modal_outage
-                    click_function: ReinitaliseMapFromLocationString(variables.modal_outage.location)
+                    click_function: reinitMap(variables.modal_outage.location)
             - street:
                 mapping: street
                 cell_class: desktop-only
@@ -72,7 +72,7 @@ tables:
                 cell_class: mobile-only
                 trigger_modal:
                     variable: modal_outage
-                    click_function: ReinitaliseMapFromLocationString(variables.modal_outage.location)
+                    click_function: reinitMap(variables.modal_outage.location)
                 html:
                     - id:
                         mapping: outage_id
