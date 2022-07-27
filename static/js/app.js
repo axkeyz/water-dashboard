@@ -155,16 +155,22 @@ var app = new Vue({
             limit = '&limit='+this.variables.all_outages.limit
             offset = '&offset='+this.variables.all_outages.offset
             sort = '&sort='+this.variables.all_outages.sort+"%20"+this.variables.all_outages.sort_dir
-            fetch('http://localhost:1899/?' + limit + offset + sort + modifier )
+            search = this.getSearchString()
+
+            fetch('http://localhost:1899/?' + limit + offset + sort + modifier + search )
             .then(res => res.json())
             .then(res => {
                 if (res == null) {
                     this.all_outages = [];
                 } else {
                     this.all_outages = res;
-                    this.getAllOutagesCount(modifier)
+                    this.getAllOutagesCount(modifier + search)
                 }
             });
+        },
+        getSearchString() {
+            return this.variables.all_outages.search != null ?
+            '&search=' + this.variables.all_outages.search.replace(/[^0-9a-z ]/gi, '') : ''
         },
         getTotalHours(outage_data) {
             end_date = new Date(outage_data.end_date);

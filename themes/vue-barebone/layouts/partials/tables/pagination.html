@@ -5,13 +5,13 @@
     >
     <button 
         aria-label="Previous Page" v-on:click="changePageCount('{{ .TableValues.variable }}', -1),
-        getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search)" 
+        getAllOutages()" 
         :disabled="variables.{{ .TableValues.variable }}.page <= 1" class="main-button"
     >&#171;</button>
     &nbsp;&nbsp;${ variables.{{ .TableValues.variable }}.page } of ${ variables.{{ .TableValues.variable }}.total_pages }&nbsp;&nbsp;
     <button aria-label="Next Page" 
         v-on:click="changePageCount('{{ .TableValues.variable }}', 1),
-        getAllOutages('&search=' + variables.{{ .TableValues.variable }}.search)" 
+        getAllOutages()" 
         :disabled="variables.{{ .TableValues.variable }}.page >= variables.{{ .TableValues.variable }}.total_pages" class="main-button"
     >&#187;</button>
     </div>

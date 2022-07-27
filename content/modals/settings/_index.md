@@ -12,7 +12,7 @@ contains_closable: true
     id = "ipp"
     click = `resetPageAndOffsets('all_outages'),
     UpdateVariableNumber('all_outages', 'limit', XITEM),
-    getAllOutages('&search=' + variables.all_outages.search),
+    getAllOutages(),
     this.$cookies.set('ipp', XITEM)`
     items = "10, 25, 50, 100"
     button = "all_outages"
