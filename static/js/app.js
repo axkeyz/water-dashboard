@@ -16,7 +16,7 @@ var app = new Vue({
             all_outages: { 
                 page: 1,
                 total_pages: 0,
-                limit: 50,
+                limit: parseInt($cookies.get('ipp')),
                 offset: 0,
                 search: '',
                 count: 0,
@@ -29,9 +29,15 @@ var app = new Vue({
                 map: [-36.848461, 174.763336],
             },
         },
-        settings: {},
+        settings: {
+            hideipp: true,
+        },
     },
     created:function() {
+        if( $cookies.get('ipp') == null) {
+            $cookies.set('ipp', 50);
+        }
+
         this.getTodayOutages()
         this.getAllOutages()
 

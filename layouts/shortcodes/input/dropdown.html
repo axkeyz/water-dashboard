@@ -7,12 +7,17 @@
     <input 
         type="button" class="{{ .Get "class" }}-button" 
         :value="variables.{{ .Get "button" }}.limit"
+        @click="settings.hide{{ .Get "id" }} = !settings.hide{{ .Get "id" }}"
     />
-    <div>
+    <div 
+        class="{{ .Get "class" }}-content"
+        v-show="!settings.hide{{ .Get "id" }}"
+        @click="settings.hide{{ .Get "id" }} = !settings.hide{{ .Get "id" }}"
+    >
         {{ $item := split (.Get "items") ", " }}
         {{ range $i := $item }}
             <div
-            v-on:click="{{ replace $functions "XITEM" $i }}"
+                @click="{{ replace $functions "XITEM" $i }}"
             >{{ $i }}</div>
         {{ end }}
     </div>
