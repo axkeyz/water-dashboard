@@ -4,7 +4,9 @@
     v-model="variables.{{ .TableValues.variable }}.search" 
     @input="variables.{{ .TableValues.variable }}.page = 1,
         resetPageAndOffsets('{{ .TableValues.variable }}'),
-        {{ .TableValues.enable_search.function }}()
+        {{ .TableValues.enable_search.function }}(),
+        this.history.pushState(null, null, this.window.location.href.split('?')[0] + 
+        '?search=' + variables.{{ .TableValues.variable }}.search);
     "
 />
 {{ end }}
