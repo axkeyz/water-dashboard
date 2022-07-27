@@ -204,7 +204,7 @@ h1, h2 {
 input {
     padding: 10px;
     margin: 15px 0;
-    border: 1px solid #306BAC;;
+    border: 1px solid #306BAC;
 }
 
 .rounded-label {
@@ -366,15 +366,20 @@ th.mobile-only, td.mobile-only {
     display: inline-block;
     background-color: transparent;
     cursor: pointer;
-    padding-left: 30px;
-    padding-right: 30px;
-    margin-bottom: 0px;
+    padding: 10px 16px;
+    border: 1px solid #306BAC;
+    width: 150px;
+    text-align: center;
+}
+
+.settings-dropdown-button svg {
+    max-height: 10px;
 }
 
 .settings-dropdown-content {
     position: absolute;
     background-color: #fff;
-    min-width: 160px;
+    width: 150px;
     box-shadow: 0px 8px 16px 0px rgba(48,107,172,0.2);
     z-index: 1;
 }
@@ -388,4 +393,14 @@ th.mobile-only, td.mobile-only {
 .settings-dropdown-content div:hover {
     cursor: pointer;
     background-color: #f5f6fc;
+}
+
+.rotate-180 {
+    transform: rotate(-180deg);
+    transition-duration: 500ms;
+}
+
+.rotate-0 {
+    transform: rotate(0deg);
+    transition-duration: 500ms;
 }

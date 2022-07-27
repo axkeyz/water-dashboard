@@ -6,11 +6,18 @@
 <div class="{{ .Get "class" }}" id="{{ .Get "id" }}" 
     v-clickaway="()=>hideSetting('hide{{ .Get "id" }}')"
 >
-    <input 
-        type="button" class="{{ .Get "class" }}-button" 
-        :value="variables.{{ .Get "button" }}.limit"
+    <button 
+        class="{{ .Get "class" }}-button" 
         @click="settings.hide{{ .Get "id" }} = !settings.hide{{ .Get "id" }}"
-    />
+    >
+        <div class="flexed-section">
+            <div>${ variables.{{ .Get "button" }}.limit }</div>
+            <div :class="{
+                'rotate-180' : !settings.hide{{ .Get "id" }},
+                'rotate-0' : settings.hide{{ .Get "id" }},
+            }">{{ partial "svg/arrowdown.svg" }}</div>
+        </div>
+    </button>
     <div 
         class="{{ .Get "class" }}-content"
         v-show="!settings.hide{{ .Get "id" }}"
