@@ -254,6 +254,28 @@ var app = new Vue({
         },
         updateCurrentOutages(modifier = '') {
             this.getAllOutages(modifier)
+        },
+        hideSetting(setting) {
+            this.settings[setting] = true;
+        },
+        hideSetting2() {
+            this.settings['hideipp'] = true;
         }
     },
+    directives: {
+        clickaway: {
+            bind: function (el, binding, vnode) {
+                el.clickOutsideEvent = function (event) {
+                    // Check if click is outside element and child
+                    if (!(el == event.target) && !(el.contains(event.target))) {
+                        binding.value()
+                    }
+                };
+                document.body.addEventListener('click', el.clickOutsideEvent)
+            },
+            unbind: function (el) {
+                document.body.removeEventListener('click', el.clickOutsideEvent)
+            },
+        }
+    }
 })

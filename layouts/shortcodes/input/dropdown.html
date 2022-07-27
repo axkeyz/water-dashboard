@@ -3,7 +3,9 @@
     {{ $functions = .Get "click" }}
 {{ end }}
 
-<div class="{{ .Get "class" }}" id="{{ .Get "id" }}">
+<div class="{{ .Get "class" }}" id="{{ .Get "id" }}" 
+    v-clickaway="()=>hideSetting('hide{{ .Get "id" }}')"
+>
     <input 
         type="button" class="{{ .Get "class" }}-button" 
         :value="variables.{{ .Get "button" }}.limit"

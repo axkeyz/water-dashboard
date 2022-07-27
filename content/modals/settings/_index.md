@@ -3,6 +3,7 @@ title: "Settings"
 date: 2022-07-26T22:38:25+12:00
 draft: false
 button_text: Close
+contains_closable: true
 ---
 |  |  |
 | ----------- | ----------- |
