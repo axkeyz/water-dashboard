@@ -12,7 +12,7 @@
 
         <div class="modal-footer">
             <button class="main-button modal-default-button" @click="toggleModal('id_'+{{ .id }})">
-              Cool, I got it!
+              {{ if isset .Params "button_text" }}{{ .Params.button_text }}{{ else }}Cool, I got it!{{ end }}
             </button>
         </div>
       </div>
