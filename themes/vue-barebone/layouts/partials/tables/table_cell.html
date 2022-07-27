@@ -1,7 +1,7 @@
 {{ $k := .k }}
 <td
     {{ if isset $k "cell_class"}}
-        class="{{ $k.cell_class }}"
+        class="{{ $k.cell_class }} {{ if isset $k "td_class" }}{{ $k.td_class }}{{ end }}"
     {{ end }}
 
     {{ if isset $k "trigger_modal" }}

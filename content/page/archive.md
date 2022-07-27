@@ -17,6 +17,7 @@ tables:
             - id:
                 mapping: outage_id
                 cell_class: desktop-only
+                td_class: url-button
                 trigger_modal:
                     variable: modal_outage
                     click_function: reinitMap(variables.modal_outage.location)

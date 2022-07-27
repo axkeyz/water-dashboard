@@ -408,3 +408,11 @@ th.mobile-only, td.mobile-only {
 .header-search svg {
     height: 20px;
 }
+
+.url-button {
+    cursor: pointer;
+}
+
+.url-button:hover {
+    color: #306BAC;
+}
