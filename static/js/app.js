@@ -38,6 +38,8 @@ var app = new Vue({
             $cookies.set('ipp', 50);
         }
 
+        this.getQueryParams()
+
         this.getTodayOutages()
         this.getAllOutages()
 
@@ -57,6 +59,11 @@ var app = new Vue({
         }
     },
     methods:{
+        getQueryParams:function() {
+            uri = window.location.search.substring(1); 
+            params = new URLSearchParams(uri);
+            this.variables.all_outages.search = params.get("search")
+        },
         gmapsInit: function() {
             const apiKey = this.unEncryptKey();
             const callbackName = 'gmapsCallback';
