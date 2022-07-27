@@ -17,7 +17,7 @@
 
                     {{ if .Params.content }}
                         {{ with site.GetPage .URL }}
-                            {{- partial "modals/main.html" (dict "content" .Content "title" .Title "id" $modal_id "Params" .Params) -}}
+                            {{- partial "modals/main.html" (dict "content" .Content "title" .Title "id" $modal_id "Params" .Params ) -}}
                         {{ end }}
                     {{ end }}
                 {{ else }}
