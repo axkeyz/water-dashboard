@@ -151,10 +151,8 @@ var app = new Vue({
                 });
             }
         },
-        getAllOutages:function(modifier = '') {
-            limit = '&limit='+this.variables.all_outages.limit
-            offset = '&offset='+this.variables.all_outages.offset
-            sort = '&sort='+this.variables.all_outages.sort+"%20"+this.variables.all_outages.sort_dir
+        getAllOutages:function(modifier = '', isLimited = true) {
+            [limit, offset, sort] = this.getLimitOffsetString(isLimited)
             search = this.getSearchString()
 
             fetch('http://localhost:1899/?' + limit + offset + sort + modifier + search )
@@ -171,6 +169,13 @@ var app = new Vue({
         getSearchString() {
             return this.variables.all_outages.search != null ?
             '&search=' + this.variables.all_outages.search.replace(/[^0-9a-z ]/gi, '') : ''
+        },
+        getLimitOffsetString(isLimited){
+            return isLimited ? 
+            ['&limit='+this.variables.all_outages.limit,
+            '&offset='+this.variables.all_outages.offset,
+            '&sort='+this.variables.all_outages.sort+"%20"+this.variables.all_outages.sort_dir]
+            : ['', '', '']
         },
         getTotalHours(outage_data) {
             end_date = new Date(outage_data.end_date);
