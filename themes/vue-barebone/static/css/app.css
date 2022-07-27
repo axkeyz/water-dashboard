@@ -204,6 +204,7 @@ h1, h2 {
 input {
     padding: 10px;
     margin: 15px 0;
+    border: 1px solid #a3a1e1;;
 }
 
 .rounded-label {
@@ -360,18 +361,11 @@ th.mobile-only, td.mobile-only {
     height: 100%;
 }
 
-.settings-dropdown button {
+.settings-dropdown-button {
     position: relative;
     display: inline-block;
-    padding: 10px;
-    margin: 15px 0;
-}
-
-
-.hidden {
-    display: none;
-}
-
-.visible {
-    display: inline-block;
+    background-color: transparent;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
 }
